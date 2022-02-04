@@ -1,17 +1,23 @@
 package project.eric.todokotlin
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import org.w3c.dom.Text
 
-class TaskItemAdapter(val listOfItems: List<String>, val longClickListener: OnLongClickListener) : RecyclerView.Adapter<TaskItemAdapter.ViewHolder>() {
+class TaskItemAdapter(
+    val listOfItems: List<String>,
+    val longClickListener: OnLongClickListener,
+    val clickListener: OnClickListener
+) : RecyclerView.Adapter<TaskItemAdapter.ViewHolder>() {
 
     interface OnLongClickListener {
         fun onItemLongClicked(position: Int)
+    }
+
+    interface OnClickListener {
+        fun onItemClicked(position: Int)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -40,6 +46,10 @@ class TaskItemAdapter(val listOfItems: List<String>, val longClickListener: OnLo
             itemView.setOnClickListener {
                 longClickListener.onItemLongClicked(adapterPosition)
                 true
+            }
+
+            itemView.setOnClickListener {
+                clickListener.onItemClicked(adapterPosition)
             }
         }
     }

@@ -1,5 +1,6 @@
 package project.eric.todokotlin
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -32,11 +33,20 @@ class MainActivity : AppCompatActivity() {
 
         }
 
+        val onClickListener = object : TaskItemAdapter.OnClickListener {
+            override fun onItemClicked(position: Int) {
+                val intent = Intent(applicationContext, EditActivity::class.java)
+
+                startActivity(intent)
+            }
+
+        }
+
         loadItems()
 
         val recyclerView = findViewById<RecyclerView>(R.id.rvRecycleView)
 
-        adapter = TaskItemAdapter(listOfTasks, onLongClickListener)
+        adapter = TaskItemAdapter(listOfTasks, onLongClickListener, onClickListener)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
